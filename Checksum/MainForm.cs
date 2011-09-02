@@ -24,6 +24,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Security.Permissions;
+using System.Security;
 
 namespace Checksum {
     public partial class MainForm : Form {
@@ -32,7 +34,57 @@ namespace Checksum {
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
-            
+            hashComboBox.DataSource = new BindingSource(Checksum.HashAlgorithms(), null);
+            hashComboBox.DisplayMember = "Value";
+            hashComboBox.ValueMember = "Key";
+        }
+
+        private void selectButton_Click(object sender, EventArgs e) {
+            OpenFile();
+        }
+
+        private void fileTextBox_Click(object sender, EventArgs e) {
+            if(String.IsNullOrEmpty(fileTextBox.Text)) OpenFile();
+        }
+
+        private void computeButton_Click(object sender, EventArgs e) {
+            if(ReadPermission(openFileDialog.FileName)) {
+                Checksum.Hash selectedHash = (Checksum.Hash)Enum.Parse(typeof(Checksum.Hash), hashComboBox.SelectedValue.ToString());
+
+                switch(selectedHash) {
+                    case Checksum.Hash.MD5:
+                        resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.MD5, openFileDialog.FileName);
+                        break;
+                    case Checksum.Hash.SHA1:
+                        resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA1, openFileDialog.FileName);
+                        break;
+                    case Checksum.Hash.SHA256:
+                        resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA256, openFileDialog.FileName);
+                        break;
+                    case Checksum.Hash.SHA512:
+                        resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA512, openFileDialog.FileName);
+                        break;
+                }
+
+            } else {
+                MessageBox.Show("You do not have read permission for the given file.", "Read Permission", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private bool ReadPermission(string path) {
+            FileIOPermission fp = new FileIOPermission(FileIOPermissionAccess.Read, path);
+            try {
+                fp.Demand();
+            } catch(SecurityException) { return false; }
+
+            return true;
+        }
+
+        private void OpenFile() {
+            if(openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                fileTextBox.Text = openFileDialog.FileName;
+                computeButton.Enabled = true;
+            }
         }
     }
 }
