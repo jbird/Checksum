@@ -28,9 +28,9 @@
             this.fileTextBox = new System.Windows.Forms.TextBox();
             this.selectButton = new System.Windows.Forms.Button();
             this.resultLabel = new System.Windows.Forms.Label();
-            this.resultTextBox = new System.Windows.Forms.TextBox();
             this.computeButton = new System.Windows.Forms.Button();
             this.hashComboBox = new System.Windows.Forms.ComboBox();
+            this.resultTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -49,19 +49,20 @@
             // 
             // fileTextBox
             // 
-            this.fileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.fileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.fileTextBox.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.fileTextBox.Location = new System.Drawing.Point(65, 6);
             this.fileTextBox.Name = "fileTextBox";
             this.fileTextBox.ReadOnly = true;
-            this.fileTextBox.Size = new System.Drawing.Size(207, 20);
+            this.fileTextBox.Size = new System.Drawing.Size(309, 20);
             this.fileTextBox.TabIndex = 1;
             this.fileTextBox.Click += new System.EventHandler(this.fileTextBox_Click);
             // 
             // selectButton
             // 
-            this.selectButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.selectButton.Location = new System.Drawing.Point(278, 4);
+            this.selectButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.selectButton.Location = new System.Drawing.Point(378, 4);
             this.selectButton.Name = "selectButton";
             this.selectButton.Size = new System.Drawing.Size(75, 23);
             this.selectButton.TabIndex = 2;
@@ -79,22 +80,11 @@
             this.resultLabel.TabIndex = 3;
             this.resultLabel.Text = "Result:";
             // 
-            // resultTextBox
-            // 
-            this.resultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.resultTextBox.Location = new System.Drawing.Point(65, 35);
-            this.resultTextBox.Name = "resultTextBox";
-            this.resultTextBox.ReadOnly = true;
-            this.resultTextBox.Size = new System.Drawing.Size(287, 20);
-            this.resultTextBox.TabIndex = 4;
-            this.resultTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // computeButton
             // 
-            this.computeButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.computeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.computeButton.Enabled = false;
-            this.computeButton.Location = new System.Drawing.Point(277, 61);
+            this.computeButton.Location = new System.Drawing.Point(379, 61);
             this.computeButton.Name = "computeButton";
             this.computeButton.Size = new System.Drawing.Size(75, 23);
             this.computeButton.TabIndex = 5;
@@ -104,19 +94,38 @@
             // 
             // hashComboBox
             // 
-            this.hashComboBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.hashComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.hashComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hashComboBox.FormattingEnabled = true;
-            this.hashComboBox.Location = new System.Drawing.Point(200, 63);
+            this.hashComboBox.Items.AddRange(new object[] {
+            "MD5",
+            "SHA-1",
+            "SHA-256",
+            "SHA-512"});
+            this.hashComboBox.Location = new System.Drawing.Point(302, 63);
             this.hashComboBox.Name = "hashComboBox";
             this.hashComboBox.Size = new System.Drawing.Size(71, 21);
             this.hashComboBox.TabIndex = 6;
+            this.hashComboBox.SelectedIndexChanged += new System.EventHandler(this.hashComboBox_SelectedIndexChanged);
+            // 
+            // resultTextBox
+            // 
+            this.resultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.resultTextBox.Location = new System.Drawing.Point(65, 35);
+            this.resultTextBox.Multiline = true;
+            this.resultTextBox.Name = "resultTextBox";
+            this.resultTextBox.ReadOnly = true;
+            this.resultTextBox.Size = new System.Drawing.Size(389, 20);
+            this.resultTextBox.TabIndex = 4;
+            this.resultTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 96);
+            this.ClientSize = new System.Drawing.Size(466, 96);
             this.Controls.Add(this.hashComboBox);
             this.Controls.Add(this.computeButton);
             this.Controls.Add(this.resultTextBox);
@@ -128,6 +137,7 @@
             this.Name = "MainForm";
             this.Text = "Checksum";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,9 +150,9 @@
         private System.Windows.Forms.TextBox fileTextBox;
         private System.Windows.Forms.Button selectButton;
         private System.Windows.Forms.Label resultLabel;
-        private System.Windows.Forms.TextBox resultTextBox;
         private System.Windows.Forms.Button computeButton;
         private System.Windows.Forms.ComboBox hashComboBox;
+        private System.Windows.Forms.TextBox resultTextBox;
     }
 }
 

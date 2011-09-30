@@ -28,7 +28,7 @@ namespace Checksum {
     /**
      * <summary>A file integrity verifier.</summary>
      */
-    internal static class Checksum {
+    public static class Checksum {
         /**
          * <summary>Cryptographic Hash Functions</summary>
          */

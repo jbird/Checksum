@@ -29,14 +29,31 @@ using System.Security;
 
 namespace Checksum {
     public partial class MainForm : Form {
+        /**
+         * <summary>Gets the currently selected hash in the combo box.</summary>
+         */
+        private Checksum.Hash GetSelectedHash() {
+            return (Checksum.Hash)Enum.Parse(typeof(Checksum.Hash), hashComboBox.SelectedValue.ToString());
+        }
+
+        /**
+         * <summary>Gets the currently selected hash in the combo box.</summary>
+         */
+        public string SelectedHash {
+            get {
+                return hashComboBox.SelectedItem.ToString();
+            }
+        }
+
         public MainForm() {
             InitializeComponent();
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
-            hashComboBox.DataSource = new BindingSource(Checksum.HashAlgorithms(), null);
+            /*hashComboBox.DataSource = new BindingSource(Checksum.HashAlgorithms(), null);
             hashComboBox.DisplayMember = "Value";
-            hashComboBox.ValueMember = "Key";
+            hashComboBox.ValueMember = "Key";*/
+            hashComboBox.SelectedIndex = 0;
         }
 
         private void selectButton_Click(object sender, EventArgs e) {
@@ -49,19 +66,18 @@ namespace Checksum {
 
         private void computeButton_Click(object sender, EventArgs e) {
             if(ReadPermission(openFileDialog.FileName)) {
-                Checksum.Hash selectedHash = (Checksum.Hash)Enum.Parse(typeof(Checksum.Hash), hashComboBox.SelectedValue.ToString());
 
-                switch(selectedHash) {
-                    case Checksum.Hash.MD5:
+                switch(SelectedHash) {
+                    case "MD5":
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.MD5, openFileDialog.FileName);
                         break;
-                    case Checksum.Hash.SHA1:
+                    case "SHA-1":
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA1, openFileDialog.FileName);
                         break;
-                    case Checksum.Hash.SHA256:
+                    case "SHA-256":
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA256, openFileDialog.FileName);
                         break;
-                    case Checksum.Hash.SHA512:
+                    case "SHA-512":
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA512, openFileDialog.FileName);
                         break;
                 }
@@ -84,6 +100,27 @@ namespace Checksum {
             if(openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 fileTextBox.Text = openFileDialog.FileName;
                 computeButton.Enabled = true;
+            }
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e) {
+            MessageBox.Show(this.Width.ToString());
+        }
+
+        private void hashComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            switch(SelectedHash) {
+                case "MD5":
+                    Height = 134;
+                    break;
+                case "SHA-1":
+                    Height = 134;
+                    break;
+                case "SHA-256":
+                    Height = 134;
+                    break;
+                case "SHA-512":
+                    Height = 154;
+                    break;
             }
         }
     }
