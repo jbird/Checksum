@@ -39,6 +39,8 @@ namespace Checksum {
             SHA512 = 3
         }
 
+        public const string MD5 = "MD5", SHA1 = "SHA-1", SHA256 = "SHA-256", SHA512 = "SHA-512";
+
         public static IEnumerable HashAlgorithms() {
             return new Dictionary<int, string>() {
                 {0, "MD5" }, {1, "SHA-1" }, {2, "SHA-256" }, {3, "SHA-512" }

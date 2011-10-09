@@ -32,12 +32,14 @@ namespace Checksum {
         /**
          * <summary>Gets the currently selected hash in the combo box.</summary>
          */
-        private Checksum.Hash GetSelectedHash() {
-            return (Checksum.Hash)Enum.Parse(typeof(Checksum.Hash), hashComboBox.SelectedValue.ToString());
-        }
+        /*public Checksum.Hash SelectedHash {
+            get {
+                return (Checksum.Hash)Enum.Parse(typeof(Checksum.Hash), hashComboBox.SelectedValue.ToString());
+            }
+        }*/
 
         /**
-         * <summary>Gets the currently selected hash in the combo box.</summary>
+         * <summary>Gets the currently selected hash.</summary>
          */
         public string SelectedHash {
             get {
@@ -45,15 +47,18 @@ namespace Checksum {
             }
         }
 
+        /**
+         * <summary>Gets the previously selected hash. Used to determine whether to clear the results or not.</summary>
+         */
+        public string PreviousHash { get; private set; }
+
         public MainForm() {
             InitializeComponent();
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
-            /*hashComboBox.DataSource = new BindingSource(Checksum.HashAlgorithms(), null);
-            hashComboBox.DisplayMember = "Value";
-            hashComboBox.ValueMember = "Key";*/
             hashComboBox.SelectedIndex = 0;
+            PreviousHash = SelectedHash;
         }
 
         private void selectButton_Click(object sender, EventArgs e) {
@@ -68,23 +73,51 @@ namespace Checksum {
             if(ReadPermission(openFileDialog.FileName)) {
 
                 switch(SelectedHash) {
-                    case "MD5":
+                    case Checksum.MD5:
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.MD5, openFileDialog.FileName);
+                        resultTextBox.BackColor = Color.White;
+                        if(Height > 124) ShrinkWindow();
                         break;
-                    case "SHA-1":
+                    case Checksum.SHA1:
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA1, openFileDialog.FileName);
+                        resultTextBox.BackColor = Color.White;
+                        if(Height > 124) ShrinkWindow();
                         break;
-                    case "SHA-256":
+                    case Checksum.SHA256:
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA256, openFileDialog.FileName);
+                        resultTextBox.BackColor = Color.White;
+                        if(Height > 124) ShrinkWindow();
                         break;
-                    case "SHA-512":
+                    case Checksum.SHA512:
                         resultTextBox.Text = Checksum.ComputeChecksum(Checksum.Hash.SHA512, openFileDialog.FileName);
+                        resultTextBox.BackColor = Color.White;
+                        if(Height < 140) ExpandWindow();
                         break;
                 }
+
+                resetButton.Enabled = true;
 
             } else {
                 MessageBox.Show("You do not have read permission for the given file.", "Read Permission", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void hashComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if(SelectedHash != PreviousHash) {
+                resultTextBox.BackColor = Control.DefaultBackColor;
+                resultTextBox.Text = String.Empty;
+                PreviousHash = SelectedHash;
+            }
+        }
+
+        private void reset_Click(object sender, EventArgs e) {
+            openFileDialog.Reset();
+            computeButton.Enabled = false;
+            fileTextBox.Text = String.Empty;
+            resultTextBox.Text = String.Empty;
+            ShrinkWindow();
+            hashComboBox.SelectedIndex = 0;
+            resetButton.Enabled = false;
         }
 
         private bool ReadPermission(string path) {
@@ -103,24 +136,17 @@ namespace Checksum {
             }
         }
 
-        private void MainForm_ResizeEnd(object sender, EventArgs e) {
-            MessageBox.Show(this.Width.ToString());
+        private void ShrinkWindow() {
+            while(Height >= 124) {
+                Height--;
+                Refresh();
+            }
         }
 
-        private void hashComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-            switch(SelectedHash) {
-                case "MD5":
-                    Height = 134;
-                    break;
-                case "SHA-1":
-                    Height = 134;
-                    break;
-                case "SHA-256":
-                    Height = 134;
-                    break;
-                case "SHA-512":
-                    Height = 154;
-                    break;
+        private void ExpandWindow() {
+            while(Height <= 140) {
+                Height++;
+                Refresh();
             }
         }
     }

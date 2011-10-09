@@ -31,6 +31,7 @@
             this.computeButton = new System.Windows.Forms.Button();
             this.hashComboBox = new System.Windows.Forms.ComboBox();
             this.resultTextBox = new System.Windows.Forms.TextBox();
+            this.resetButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -84,7 +85,7 @@
             // 
             this.computeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.computeButton.Enabled = false;
-            this.computeButton.Location = new System.Drawing.Point(379, 61);
+            this.computeButton.Location = new System.Drawing.Point(221, 61);
             this.computeButton.Name = "computeButton";
             this.computeButton.Size = new System.Drawing.Size(75, 23);
             this.computeButton.TabIndex = 5;
@@ -121,11 +122,23 @@
             this.resultTextBox.TabIndex = 4;
             this.resultTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // resetButton
+            // 
+            this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetButton.Location = new System.Drawing.Point(378, 61);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(75, 23);
+            this.resetButton.TabIndex = 7;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.reset_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 96);
+            this.Controls.Add(this.resetButton);
             this.Controls.Add(this.hashComboBox);
             this.Controls.Add(this.computeButton);
             this.Controls.Add(this.resultTextBox);
@@ -133,11 +146,11 @@
             this.Controls.Add(this.selectButton);
             this.Controls.Add(this.fileTextBox);
             this.Controls.Add(this.fileLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Checksum";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,6 +166,7 @@
         private System.Windows.Forms.Button computeButton;
         private System.Windows.Forms.ComboBox hashComboBox;
         private System.Windows.Forms.TextBox resultTextBox;
+        private System.Windows.Forms.Button resetButton;
     }
 }
 
